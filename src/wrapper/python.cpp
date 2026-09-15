@@ -82,6 +82,11 @@ limited by velocity, acceleration, and jerk constraints.";
             }
             return nb::make_tuple(new_position, new_velocity, new_acceleration);
         }, "time"_a, "return_section"_a=false)
+        .def("at_times", [](const Trajectory<>& traj, std::vector<double> times) {
+            std::vector<std::vector<double>> new_positions(times.size(), std::vector<double>(traj.degrees_of_freedom)), new_velocity(times.size(), std::vector<double>(traj.degrees_of_freedom)), new_acceleration(times.size(), std::vector<double>(traj.degrees_of_freedom));
+            traj.at_times(times, new_positions, new_velocity, new_acceleration);
+            return nb::make_tuple(new_positions, new_velocity, new_acceleration);
+        }, "times"_a)
         .def("get_first_time_at_position", &Trajectory<>::get_first_time_at_position, "dof"_a, "position"_a, "time_after"_a=0.0);
 
     nb::class_<InputParameter<>>(m, "InputParameter")

@@ -81,16 +81,11 @@ class Plotter:
 
     @staticmethod
     def plot(path: Path, trajectory, inp, show=False):
-        taxis = np.linspace(0.0, trajectory.duration, num=500)
-        positions, velocities, accelerations = [], [], []
-        for t in taxis:
-            position, velocity, acceleration = trajectory.at_time(t)
-            positions.append(position)
-            velocities.append(velocity)
-            accelerations.append(acceleration)
+        times = np.linspace(0.0, trajectory.duration, num=500)
+        positions, velocities, accelerations = trajectory.at_times(times)
 
         Plotter._plot_data(
-            path, inp, taxis,
+            path, inp, times,
             np.array(positions), np.array(velocities), np.array(accelerations),
             intermediate_durations=trajectory.intermediate_durations,
             title=f'Trajectory with duration {trajectory.duration:.3f} s',
